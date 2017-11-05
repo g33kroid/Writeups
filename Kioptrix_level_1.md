@@ -90,3 +90,84 @@ HOP RTT     ADDRESS
 OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 267.94 seconds
 ```
+Go buster Scan
+```shell
+┌─[micr0b0t@parrot]─[~/Desktop]
+└──╼ $gobuster -u http://192.168.0.9/ -w SecLists/Discovery/Web_Content/common.txt -s 200,203,301,302,403,500 -e -x .php
+
+Gobuster v1.2                OJ Reeves (@TheColonial)
+=====================================================
+[+] Mode         : dir
+[+] Url/Domain   : http://192.168.0.9/
+[+] Threads      : 10
+[+] Wordlist     : SecLists/Discovery/Web_Content/common.txt
+[+] Status codes : 302,403,500,200,203,301
+[+] Extensions   : .php
+[+] Expanded     : true
+=====================================================
+http://192.168.0.9/.hta (Status: 403)
+http://192.168.0.9/.hta.php (Status: 403)
+http://192.168.0.9/.htaccess (Status: 403)
+http://192.168.0.9/.htpasswd (Status: 403)
+http://192.168.0.9/.htaccess.php (Status: 403)
+http://192.168.0.9/.htpasswd.php (Status: 403)
+http://192.168.0.9/cgi-bin/ (Status: 403)
+http://192.168.0.9/index.html (Status: 200)
+http://192.168.0.9/manual (Status: 301)
+http://192.168.0.9/mrtg (Status: 301)
+http://192.168.0.9/test.php (Status: 200)
+http://192.168.0.9/usage (Status: 301)
+http://192.168.0.9/~operator (Status: 403)
+http://192.168.0.9/~root (Status: 403)
+=====================================================
+```
+Until we Explore what is this lets give it a **Nikto** Scan
+```shell
+┌─[micr0b0t@parrot]─[~/Downloads]
+└──╼ $nikto -host 192.168.0.9
+- Nikto v2.1.6
+---------------------------------------------------------------------------
++ Target IP:          192.168.0.9
++ Target Hostname:    192.168.0.9
++ Target Port:        80
++ Start Time:         2017-11-05 17:19:08 (GMT-5)
+---------------------------------------------------------------------------
++ Server: Apache/1.3.20 (Unix)  (Red-Hat/Linux) mod_ssl/2.8.4 OpenSSL/0.9.6b
++ Server leaks inodes via ETags, header found with file /, inode: 34821, size: 2890, mtime: Wed Sep  5 23:12:46 2001
++ The anti-clickjacking X-Frame-Options header is not present.
++ The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS
++ The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type
++ OpenSSL/0.9.6b appears to be outdated (current is at least 1.0.1j). OpenSSL 1.0.0o and 0.9.8zc are also current.
++ Apache/1.3.20 appears to be outdated (current is at least Apache/2.4.12). Apache 2.0.65 (final release) and 2.2.29 are also current.
++ mod_ssl/2.8.4 appears to be outdated (current is at least 2.8.31) (may depend on server version)
++ OSVDB-27487: Apache is vulnerable to XSS via the Expect header
++ Allowed HTTP Methods: GET, HEAD, OPTIONS, TRACE 
++ OSVDB-877: HTTP TRACE method is active, suggesting the host is vulnerable to XST
++ OSVDB-838: Apache/1.3.20 - Apache 1.x up 1.2.34 are vulnerable to a remote DoS and possible code execution. CAN-2002-0392.
++ OSVDB-4552: Apache/1.3.20 - Apache 1.3 below 1.3.27 are vulnerable to a local buffer overflow which allows attackers to kill any process on the system. CAN-2002-0839.
++ OSVDB-2733: Apache/1.3.20 - Apache 1.3 below 1.3.29 are vulnerable to overflows in mod_rewrite and mod_cgi. CAN-2003-0542.
++ mod_ssl/2.8.4 - mod_ssl 2.8.7 and lower are vulnerable to a remote buffer overflow which may allow a remote shell. http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2002-0082, OSVDB-756.
++ ///etc/hosts: The server install allows reading of any system file by adding an extra '/' to the URL.
++ OSVDB-682: /usage/: Webalizer may be installed. Versions lower than 2.01-09 vulnerable to Cross Site Scripting (XSS). http://www.cert.org/advisories/CA-2000-02.html.
++ OSVDB-3268: /manual/: Directory indexing found.
++ OSVDB-3092: /manual/: Web server manual found.
++ OSVDB-3268: /icons/: Directory indexing found.
++ OSVDB-3233: /icons/README: Apache default file found.
++ OSVDB-3092: /test.php: This might be interesting...
++ 8345 requests: 0 error(s) and 21 item(s) reported on remote host
++ End Time:           2017-11-05 17:19:16 (GMT-5) (8 seconds)
+---------------------------------------------------------------------------
++ 1 host(s) tested
+```
+So we have a lead now **mod_cgi** is vulnerable to **shellshock**
+```shell
+┌─[micr0b0t@parrot]─[~/Downloads]
+└──╼ $searchsploit mod_cgi
+--------------------------------------------- ----------------------------------
+ Exploit Title                               |  Path
+                                             | (/usr/share/exploitdb/platforms/)
+--------------------------------------------- ----------------------------------
+Apache mod_cgi - Remote Exploit (Shellshock) | linux/remote/34900.py
+--------------------------------------------- ----------------------------------
+```
+Lets see what else can we have before testing the exploits
