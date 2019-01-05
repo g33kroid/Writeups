@@ -544,7 +544,7 @@ now when we go to */home* we have found there are 5 users , lets see the ssh con
 Match User abatchy,john,mai,doomguy
 	PasswordAuthentication no
 
-``
+```
 now there are bunch of commands and at the end we have the command above which means that the following users are not allowed to login using ssh so we only have **anne**
 
 Brute Forcing the SSH for the user **anne** 
