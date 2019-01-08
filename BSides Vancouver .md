@@ -545,7 +545,7 @@ Match User abatchy,john,mai,doomguy
 	PasswordAuthentication no
 
 ```
-now there are bunch of commands and at the end we have the command above which means that the following users are not allowed to login using ssh so we only have **anne**
+Note that there are 4 users out of 5 are not allowed to do Password Authentication for SSH which leave us with one option **anne**
 
 Brute Forcing the SSH for the user **anne** 
 
