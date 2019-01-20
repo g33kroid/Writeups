@@ -8,5 +8,6 @@ Content:
 4) [Metasploitable 2](Metasploitable2.md)
 5) [Fristi Leak 1](/FristiLeak1/FristiLeak1.md)
 6) [Jordan Info Sec](/JordanInfoSec/JIS.md)
+7) [W1R3S](/W1R3S/W1R3S.md)
 ### More is on the way :D 
 # Happy Hacking
