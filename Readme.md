@@ -2,6 +2,7 @@
 Vulnerable Machines Solutions Provided by @saluslab Team
 
 Content:
+-----------
 1) [Quaor](Quaor.md)
 
 2) [BSide Vancover](BSidesVancouver.md)
